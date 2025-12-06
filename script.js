@@ -14,12 +14,13 @@ const initScrollAnimations = () => {
   // Create the observer
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      // When element enters viewport
+      // When element enters viewport - add animation
       if (entry.isIntersecting) {
-        // Add show class to trigger animation
         entry.target.classList.add('show');
-        // Optional: Stop observing after animation (for performance)
-        observer.unobserve(entry.target);
+      } 
+      // When element leaves viewport - remove animation so it can replay
+      else {
+        entry.target.classList.remove('show');
       }
     });
   }, observerOptions);
