@@ -127,7 +127,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // Initial render
   renderUsers();
   renderProducts();
-  updateStats();
 });
 
 // ===================================
@@ -270,19 +269,35 @@ function renderUsers() {
       <td><span class="badge ${user.status.toLowerCase()}">${escapeHtml(user.status)}</span></td>
       <td>
         <div class="action-buttons">
-          <button class="action-btn view" onclick="viewUser(${user.id})" title="View">
+          <button class="action-btn view" data-action="view" data-id="${user.id}" title="View">
             <span class="material-symbols-rounded">visibility</span>
           </button>
-          <button class="action-btn edit" onclick="editUser(${user.id})" title="Edit">
+          <button class="action-btn edit" data-action="edit" data-id="${user.id}" title="Edit">
             <span class="material-symbols-rounded">edit</span>
           </button>
-          <button class="action-btn delete" onclick="deleteUser(${user.id})" title="Delete">
+          <button class="action-btn delete" data-action="delete" data-id="${user.id}" title="Delete">
             <span class="material-symbols-rounded">delete</span>
           </button>
         </div>
       </td>
     </tr>
   `).join('');
+  
+  // Add event delegation for user actions
+  tbody.removeEventListener('click', handleUserAction);
+  tbody.addEventListener('click', handleUserAction);
+}
+
+function handleUserAction(e) {
+  const button = e.target.closest('.action-btn');
+  if (!button) return;
+  
+  const action = button.getAttribute('data-action');
+  const id = parseInt(button.getAttribute('data-id'));
+  
+  if (action === 'view') viewUser(id);
+  else if (action === 'edit') editUser(id);
+  else if (action === 'delete') deleteUser(id);
 }
 
 function openUserModal(userId = null) {
@@ -366,7 +381,6 @@ function saveUser() {
 
   closeUserModal();
   renderUsers();
-  updateStats();
 }
 
 function viewUser(id) {
@@ -413,7 +427,6 @@ function deleteUser(id) {
     () => {
       users = users.filter(u => u.id !== id);
       renderUsers();
-      updateStats();
       showNotification('User deleted successfully', 'success');
     }
   );
@@ -446,19 +459,35 @@ function renderProducts() {
       <td><span class="badge ${getProductStatusClass(product.status)}">${escapeHtml(product.status)}</span></td>
       <td>
         <div class="action-buttons">
-          <button class="action-btn view" onclick="viewProduct(${product.id})" title="View">
+          <button class="action-btn view" data-action="view" data-id="${product.id}" title="View">
             <span class="material-symbols-rounded">visibility</span>
           </button>
-          <button class="action-btn edit" onclick="editProduct(${product.id})" title="Edit">
+          <button class="action-btn edit" data-action="edit" data-id="${product.id}" title="Edit">
             <span class="material-symbols-rounded">edit</span>
           </button>
-          <button class="action-btn delete" onclick="deleteProduct(${product.id})" title="Delete">
+          <button class="action-btn delete" data-action="delete" data-id="${product.id}" title="Delete">
             <span class="material-symbols-rounded">delete</span>
           </button>
         </div>
       </td>
     </tr>
   `).join('');
+  
+  // Add event delegation for product actions
+  tbody.removeEventListener('click', handleProductAction);
+  tbody.addEventListener('click', handleProductAction);
+}
+
+function handleProductAction(e) {
+  const button = e.target.closest('.action-btn');
+  if (!button) return;
+  
+  const action = button.getAttribute('data-action');
+  const id = parseInt(button.getAttribute('data-id'));
+  
+  if (action === 'view') viewProduct(id);
+  else if (action === 'edit') editProduct(id);
+  else if (action === 'delete') deleteProduct(id);
 }
 
 function getProductStatusClass(status) {
@@ -555,7 +584,6 @@ function saveProduct() {
 
   closeProductModal();
   renderProducts();
-  updateStats();
 }
 
 function viewProduct(id) {
@@ -602,7 +630,6 @@ function deleteProduct(id) {
     () => {
       products = products.filter(p => p.id !== id);
       renderProducts();
-      updateStats();
       showNotification('Product deleted successfully', 'success');
     }
   );
@@ -692,16 +719,6 @@ function closeAllModals() {
 // ===================================
 // UTILITY FUNCTIONS
 // ===================================
-function updateStats() {
-  // Update stats in overview section
-  const activeUsers = users.filter(u => u.status === 'Active').length;
-  const totalProducts = products.length;
-  const inStockProducts = products.filter(p => p.status === 'In Stock').length;
-  
-  // You can update the stat cards here if needed
-  // This is a placeholder for dynamic stat updates
-}
-
 function showError(elementId, message) {
   const errorElement = document.getElementById(elementId);
   const inputId = elementId.replace('Error', '');
