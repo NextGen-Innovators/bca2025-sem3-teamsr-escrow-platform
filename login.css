@@ -67,7 +67,10 @@ body {
 .login_option .option a img {
     max-width: 25px;
 }
-
+.login_option .option  .apple-logo {
+    max-width: 50px;
+    
+}
 .login_form p {
     text-align: center;
     font-weight: 500;
