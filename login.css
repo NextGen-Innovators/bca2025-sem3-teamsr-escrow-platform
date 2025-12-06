@@ -11,19 +11,34 @@ body {
     min-height: 100vh;
     padding: 0 10px;
     display: flex;
-    background: #626cd6;
     justify-content: center;
     align-items: center;
     font-family: "Montserrat", sans-serif;
+    position: relative;
+    
+    /* Background image with gradient overlay */
+    background-image: 
+        linear-gradient(to bottom, 
+            rgba(98, 108, 214, 0.1) 0%, 
+            rgba(98, 108, 214, 0.1) 70%, 
+            rgba(255, 255, 255, 0.9) 90%, 
+            rgba(255, 255, 255, 1) 100%
+        ),
+        url('./warehouse0.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .login_form {
     width: 100%;
     max-width: 435px;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
     border-radius: 6px;
     padding: 41px 30px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
 .login_form h3 {
