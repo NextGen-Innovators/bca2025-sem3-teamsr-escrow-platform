@@ -5,13 +5,13 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Manrope', sans-serif;
+    background: #f6f8fb;
+    color: #111;
+    line-height: 1.6;
 }
 
-header {
-    background-color: #333;
-    padding: 1rem 0;
-}
+header { background-color: #333; padding: 1rem 0; }
 
 .navbar {
     display: flex;
@@ -81,3 +81,35 @@ header {
     background-color: #45a049;
     border-color: #45a049;
 }
+
+.hero {
+    background: linear-gradient(135deg, #0f172a, #111827 60%, #0b2d1f);
+    color: #fff;
+    padding: 5rem 1.5rem 6rem;
+}
+
+.hero-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1.5rem;
+}
+
+.eyebrow {
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9be8b4;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.hero h1 { font-size: clamp(2.4rem, 4vw, 3.4rem); line-height: 1.2; }
+
+.lede {
+    max-width: 720px;
+    font-size: 1.1rem;
+    color: #e5e7eb;
+}
+
+
+
