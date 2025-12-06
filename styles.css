@@ -57,8 +57,9 @@ header { background-color: #333; padding: 1rem 0; }
 
 .btn-login {
     color: white;
-    border: 2px solid white;
+    
     background-color: transparent;
+    border-radius: 5px;
 }
 
 .btn-login:hover {
@@ -70,6 +71,7 @@ header { background-color: #333; padding: 1rem 0; }
     background-color: #4CAF50;
     color: white;
     border: 2px solid #4CAF50;
+     border-radius: 5px;
 }
 
 .btn-signin:hover {
