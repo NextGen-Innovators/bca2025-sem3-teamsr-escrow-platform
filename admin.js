@@ -249,10 +249,19 @@ function switchSection(sectionId) {
 // ===================================
 // USER MANAGEMENT
 // ===================================
+let userTableInitialized = false;
+
 function initUserManagement() {
   const addUserBtn = document.getElementById('addUserBtn');
   if (addUserBtn) {
     addUserBtn.addEventListener('click', () => openUserModal());
+  }
+  
+  // Set up event delegation once for user table
+  const tbody = document.getElementById('usersTableBody');
+  if (tbody && !userTableInitialized) {
+    tbody.addEventListener('click', handleUserAction);
+    userTableInitialized = true;
   }
 }
 
@@ -282,10 +291,6 @@ function renderUsers() {
       </td>
     </tr>
   `).join('');
-  
-  // Add event delegation for user actions
-  tbody.removeEventListener('click', handleUserAction);
-  tbody.addEventListener('click', handleUserAction);
 }
 
 function handleUserAction(e) {
@@ -439,10 +444,19 @@ function closeUserModal() {
 // ===================================
 // PRODUCT MANAGEMENT
 // ===================================
+let productTableInitialized = false;
+
 function initProductManagement() {
   const addProductBtn = document.getElementById('addProductBtn');
   if (addProductBtn) {
     addProductBtn.addEventListener('click', () => openProductModal());
+  }
+  
+  // Set up event delegation once for product table
+  const tbody = document.getElementById('productsTableBody');
+  if (tbody && !productTableInitialized) {
+    tbody.addEventListener('click', handleProductAction);
+    productTableInitialized = true;
   }
 }
 
@@ -472,10 +486,6 @@ function renderProducts() {
       </td>
     </tr>
   `).join('');
-  
-  // Add event delegation for product actions
-  tbody.removeEventListener('click', handleProductAction);
-  tbody.addEventListener('click', handleProductAction);
 }
 
 function handleProductAction(e) {
@@ -785,30 +795,3 @@ function showNotification(message, type = 'info') {
     setTimeout(() => notification.remove(), 300);
   }, 3000);
 }
-
-// Add animation styles
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes slideInRight {
-    from {
-      transform: translateX(400px);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-  
-  @keyframes slideOutRight {
-    from {
-      transform: translateX(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateX(400px);
-      opacity: 0;
-    }
-  }
-`;
-document.head.appendChild(style);
