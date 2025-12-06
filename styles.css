@@ -45,7 +45,6 @@ body {
 .navbar {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0.75rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -71,10 +70,10 @@ body {
 }
 
 .navbar-logo {
-  height: clamp(32px, 5vw, 45px);
-  width: auto;
-  object-fit: contain;
-  filter: brightness(1) contrast(1.1);
+height: clamp(80px, 11vw, 100px);
+width: auto;
+object-fit: contain;
+filter: brightness(1) contrast(1.1);
   /* Ensures logo is crisp on any background */
 }
 
@@ -302,11 +301,45 @@ body {
   box-shadow: var(--shadow-sm);
   text-align: center;
   transition: var(--transition);
+  /* ==================== SCROLL ANIMATIONS ==================== */
+  /* Initial hidden state for cards */
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .feature-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
+}
+
+/* Revealed state when in viewport */
+.feature-card.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Stagger effect - each card delays differently */
+.feature-card:nth-child(1) {
+  transition-delay: 0s;
+}
+
+.feature-card:nth-child(2) {
+  transition-delay: 0.15s;
+}
+
+.feature-card:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+.feature-card:nth-child(4) {
+  transition-delay: 0.45s;
+}
+
+/* Optional: Add a subtle hover enhancement during animation */
+.feature-card.show:hover {
+  transform: translateX(0) translateY(-8px);
 }
 
 .feature-card .icon {
@@ -345,12 +378,45 @@ body {
   text-align: center;
   box-shadow: var(--shadow-sm);
   transition: var(--transition);
+  /* Animate process steps similarly */
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .process-step:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
   border-color: var(--primary);
+}
+
+/* Revealed state when in viewport */
+.process-step.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Stagger effect - each card delays differently */
+.process-step:nth-child(1) {
+  transition-delay: 0s;
+}
+
+.process-step:nth-child(2) {
+  transition-delay: 0.15s;
+}
+
+.process-step:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+.process-step:nth-child(4) {
+  transition-delay: 0.45s;
+}
+
+/* Optional: Add a subtle hover enhancement during animation */
+.process-step.show:hover {
+  transform: translateX(0) translateY(-8px);
 }
 
 .step-number {
@@ -440,6 +506,11 @@ body {
   box-shadow: var(--shadow-sm);
   display: flex;
   gap: 1rem;
+  /* Animate info items */
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .info-item .icon {
@@ -458,6 +529,29 @@ body {
 
 .info-item a:hover {
   text-decoration: underline;
+}
+
+/* Revealed state when in viewport */
+.info-item.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Stagger effect - each card delays differently */
+.info-item:nth-child(1) {
+  transition-delay: 0s;
+}
+
+.info-item:nth-child(2) {
+  transition-delay: 0.15s;
+}
+
+.info-item:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+.info-item:nth-child(4) {
+  transition-delay: 0.45s;
 }
 
 /* ==================== RESPONSIVE BREAKPOINTS ==================== */
