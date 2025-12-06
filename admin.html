@@ -27,19 +27,23 @@
       <nav class="sidebar-nav">
         <a href="#" class="nav-item active" data-section="overview">
           <span class="material-symbols-rounded">dashboard</span>
-          <span class="nav-label">Overview</span>
+          <span class="nav-label">Dashboard</span>
         </a>
         <a href="#" class="nav-item" data-section="users">
           <span class="material-symbols-rounded">group</span>
           <span class="nav-label">Users</span>
         </a>
-        <a href="#" class="nav-item" data-section="transactions">
-          <span class="material-symbols-rounded">receipt</span>
-          <span class="nav-label">Transactions</span>
+        <a href="#" class="nav-item" data-section="products">
+          <span class="material-symbols-rounded">inventory_2</span>
+          <span class="nav-label">Products</span>
         </a>
         <a href="#" class="nav-item" data-section="settings">
           <span class="material-symbols-rounded">settings</span>
           <span class="nav-label">Settings</span>
+        </a>
+        <a href="#" class="nav-item" data-section="reports">
+          <span class="material-symbols-rounded">assessment</span>
+          <span class="nav-label">Reports</span>
         </a>
       </nav>
 
@@ -62,7 +66,7 @@
           <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
             <span class="material-symbols-rounded">menu</span>
           </button>
-          <h1 class="page-title" id="pageTitle">Overview</h1>
+          <h1 class="page-title" id="pageTitle">Dashboard</h1>
         </div>
 
         <div class="header-right">
@@ -276,7 +280,10 @@
         <section class="section" id="users" data-section="users">
           <div class="section-header">
             <h2>User Management</h2>
-            <button class="btn btn-primary">+ Add User</button>
+            <button class="btn btn-primary" id="addUserBtn">
+              <span class="material-symbols-rounded">add</span>
+              Add User
+            </button>
           </div>
 
           <div class="table-card">
@@ -286,64 +293,28 @@
                   <tr>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Role</th>
                     <th>Join Date</th>
                     <th>Status</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>Rajesh Kumar</td>
-                    <td>rajesh@example.com</td>
-                    <td>Nov 15, 2024</td>
-                    <td><span class="badge success">Active</span></td>
-                    <td>
-                      <button class="action-btn" title="Edit">✎</button>
-                      <button class="action-btn" title="Delete">🗑</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Priya Sharma</td>
-                    <td>priya@example.com</td>
-                    <td>Oct 22, 2024</td>
-                    <td><span class="badge success">Active</span></td>
-                    <td>
-                      <button class="action-btn" title="Edit">✎</button>
-                      <button class="action-btn" title="Delete">🗑</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Amit Patel</td>
-                    <td>amit@example.com</td>
-                    <td>Sep 30, 2024</td>
-                    <td><span class="badge inactive">Inactive</span></td>
-                    <td>
-                      <button class="action-btn" title="Edit">✎</button>
-                      <button class="action-btn" title="Delete">🗑</button>
-                    </td>
-                  </tr>
+                <tbody id="usersTableBody">
+                  <!-- Users will be dynamically inserted here -->
                 </tbody>
               </table>
             </div>
           </div>
         </section>
 
-        <!-- Transactions Section -->
-        <section class="section" id="transactions" data-section="transactions">
+        <!-- Products Section -->
+        <section class="section" id="products" data-section="products">
           <div class="section-header">
-            <h2>Transaction History</h2>
-            <div class="filters">
-              <select class="filter-select">
-                <option>All Types</option>
-                <option>Buy</option>
-                <option>Sell</option>
-              </select>
-              <select class="filter-select">
-                <option>All Status</option>
-                <option>Completed</option>
-                <option>Pending</option>
-              </select>
-            </div>
+            <h2>Product Management</h2>
+            <button class="btn btn-primary" id="addProductBtn">
+              <span class="material-symbols-rounded">add</span>
+              Add Product
+            </button>
           </div>
 
           <div class="table-card">
@@ -351,38 +322,133 @@
               <table class="data-table">
                 <thead>
                   <tr>
-                    <th>Transaction ID</th>
-                    <th>User</th>
-                    <th>Type</th>
-                    <th>Amount</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
                     <th>Status</th>
-                    <th>Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="productsTableBody">
+                  <!-- Products will be dynamically inserted here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Reports Section -->
+        <section class="section" id="reports" data-section="reports">
+          <div class="section-header">
+            <h2>Reports & Analytics</h2>
+            <div class="filters">
+              <select class="filter-select">
+                <option>Last 7 days</option>
+                <option>Last 30 days</option>
+                <option>Last 90 days</option>
+                <option>Custom Range</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Report Stats -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon success">
+                <span class="material-symbols-rounded">trending_up</span>
+              </div>
+              <div class="stat-content">
+                <p class="stat-label">Total Sales</p>
+                <p class="stat-value">$45,230</p>
+                <p class="stat-change positive">
+                  <span class="material-symbols-rounded">trending_up</span>
+                  <span>+15% from last period</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon info">
+                <span class="material-symbols-rounded">shopping_cart</span>
+              </div>
+              <div class="stat-content">
+                <p class="stat-label">Total Orders</p>
+                <p class="stat-value">356</p>
+                <p class="stat-change positive">
+                  <span class="material-symbols-rounded">trending_up</span>
+                  <span>+22% from last period</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon warning">
+                <span class="material-symbols-rounded">people</span>
+              </div>
+              <div class="stat-content">
+                <p class="stat-label">New Customers</p>
+                <p class="stat-value">89</p>
+                <p class="stat-change positive">
+                  <span class="material-symbols-rounded">trending_up</span>
+                  <span>+8% from last period</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon primary">
+                <span class="material-symbols-rounded">inventory</span>
+              </div>
+              <div class="stat-content">
+                <p class="stat-label">Products Sold</p>
+                <p class="stat-value">1,267</p>
+                <p class="stat-change positive">
+                  <span class="material-symbols-rounded">trending_up</span>
+                  <span>+12% from last period</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Report Tables -->
+          <div class="table-card">
+            <div class="table-header">
+              <h3>Top Selling Products</h3>
+              <a href="#" class="link-btn">View All →</a>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Sales</th>
+                    <th>Revenue</th>
+                    <th>Trend</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>#TXN001</td>
-                    <td>Rajesh Kumar</td>
-                    <td>Buy</td>
-                    <td>₹2,500</td>
-                    <td><span class="badge success">Completed</span></td>
-                    <td>Dec 6, 2024</td>
+                    <td>Premium Widget</td>
+                    <td>Electronics</td>
+                    <td>245</td>
+                    <td>$12,250</td>
+                    <td><span class="badge success">↑ 15%</span></td>
                   </tr>
                   <tr>
-                    <td>#TXN002</td>
-                    <td>Priya Sharma</td>
-                    <td>Sell</td>
-                    <td>₹5,000</td>
-                    <td><span class="badge success">Completed</span></td>
-                    <td>Dec 5, 2024</td>
+                    <td>Smart Device</td>
+                    <td>Technology</td>
+                    <td>198</td>
+                    <td>$9,900</td>
+                    <td><span class="badge success">↑ 22%</span></td>
                   </tr>
                   <tr>
-                    <td>#TXN003</td>
-                    <td>Amit Patel</td>
-                    <td>Buy</td>
-                    <td>₹1,800</td>
-                    <td><span class="badge warning">Pending</span></td>
-                    <td>Dec 5, 2024</td>
+                    <td>Pro Kit</td>
+                    <td>Tools</td>
+                    <td>156</td>
+                    <td>$7,800</td>
+                    <td><span class="badge warning">↓ 5%</span></td>
                   </tr>
                 </tbody>
               </table>
@@ -430,6 +496,149 @@
         </section>
       </div>
     </main>
+  </div>
+
+  <!-- Modal Components -->
+  
+  <!-- User Modal (Add/Edit) -->
+  <div class="modal" id="userModal">
+    <div class="modal-overlay" id="userModalOverlay"></div>
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="userModalTitle">Add User</h3>
+        <button class="modal-close" id="closeUserModal">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+      <form id="userForm" class="modal-body">
+        <input type="hidden" id="userId">
+        <div class="form-group">
+          <label for="userName">Full Name *</label>
+          <input type="text" id="userName" class="form-input" required>
+          <span class="error-message" id="userNameError"></span>
+        </div>
+        <div class="form-group">
+          <label for="userEmail">Email *</label>
+          <input type="email" id="userEmail" class="form-input" required>
+          <span class="error-message" id="userEmailError"></span>
+        </div>
+        <div class="form-group">
+          <label for="userRole">Role *</label>
+          <select id="userRole" class="form-input" required>
+            <option value="">Select Role</option>
+            <option value="Admin">Admin</option>
+            <option value="Manager">Manager</option>
+            <option value="User">User</option>
+          </select>
+          <span class="error-message" id="userRoleError"></span>
+        </div>
+        <div class="form-group">
+          <label for="userStatus">Status *</label>
+          <select id="userStatus" class="form-input" required>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+      </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="cancelUserModal">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="saveUserBtn">Save User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Modal (Add/Edit) -->
+  <div class="modal" id="productModal">
+    <div class="modal-overlay" id="productModalOverlay"></div>
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="productModalTitle">Add Product</h3>
+        <button class="modal-close" id="closeProductModal">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+      <form id="productForm" class="modal-body">
+        <input type="hidden" id="productId">
+        <div class="form-group">
+          <label for="productName">Product Name *</label>
+          <input type="text" id="productName" class="form-input" required>
+          <span class="error-message" id="productNameError"></span>
+        </div>
+        <div class="form-group">
+          <label for="productCategory">Category *</label>
+          <select id="productCategory" class="form-input" required>
+            <option value="">Select Category</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Technology">Technology</option>
+            <option value="Tools">Tools</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Accessories">Accessories</option>
+          </select>
+          <span class="error-message" id="productCategoryError"></span>
+        </div>
+        <div class="form-group">
+          <label for="productPrice">Price ($) *</label>
+          <input type="number" id="productPrice" class="form-input" min="0" step="0.01" required>
+          <span class="error-message" id="productPriceError"></span>
+        </div>
+        <div class="form-group">
+          <label for="productStock">Stock Quantity *</label>
+          <input type="number" id="productStock" class="form-input" min="0" required>
+          <span class="error-message" id="productStockError"></span>
+        </div>
+        <div class="form-group">
+          <label for="productStatus">Status *</label>
+          <select id="productStatus" class="form-input" required>
+            <option value="In Stock">In Stock</option>
+            <option value="Out of Stock">Out of Stock</option>
+            <option value="Low Stock">Low Stock</option>
+          </select>
+        </div>
+      </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="cancelProductModal">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="saveProductBtn">Save Product</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Details Modal -->
+  <div class="modal" id="viewModal">
+    <div class="modal-overlay" id="viewModalOverlay"></div>
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="viewModalTitle">Details</h3>
+        <button class="modal-close" id="closeViewModal">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+      <div class="modal-body" id="viewModalContent">
+        <!-- Details will be dynamically inserted here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="closeViewModalBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="modal" id="confirmModal">
+    <div class="modal-overlay" id="confirmModalOverlay"></div>
+    <div class="modal-container modal-sm">
+      <div class="modal-header">
+        <h3 id="confirmModalTitle">Confirm Action</h3>
+        <button class="modal-close" id="closeConfirmModal">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="confirmModalMessage">Are you sure you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="cancelConfirmModal">Cancel</button>
+        <button type="button" class="btn btn-primary btn-danger" id="confirmActionBtn">Confirm</button>
+      </div>
+    </div>
   </div>
 
   <script src="admin.js"></script>
