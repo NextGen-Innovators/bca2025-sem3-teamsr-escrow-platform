@@ -76,7 +76,8 @@ body {
 
 .login_option .option a:hover {
     background: #ededf5;
-    border-color: #626cd6;
+    border-color: 
+#4caf50;
 }
 
 .login_option .option a img {
@@ -138,7 +139,8 @@ body {
 }
 
 .input_box input:focus {
-    border-color: #626cd6;
+    border-color: 
+#4caf50;
 }
 
 .password_title {
@@ -150,7 +152,8 @@ body {
 
 form a {
     text-decoration: none;
-    color: #626cd6;
+    color: 
+#4caf50;
     font-weight: 500;
     font-size: 0.9rem;
 }
@@ -165,7 +168,8 @@ form button {
     border-radius: 5px;
     border: none;
     outline: none;
-    background: #626CD6;
+    background: 
+#4caf50;
     color: #fff;
     font-size: 18px;
     font-weight: 500;
@@ -176,7 +180,8 @@ form button {
 }
 
 form button:hover {
-    background: #4954d0;
+    background: 
+#4caf50;
 }
 
 .sign_up {
@@ -185,5 +190,6 @@ form button:hover {
 }
 
 .sign_up a {
-    color: #626cd6;
+    color: 
+#4caf50;
 }
