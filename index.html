@@ -1,163 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bhandar Sathi</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bhandar Sathi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <div class="logo"><img src="./logo.png" alt="#"></div>
-            <nav>
-                <ul class="nav-bar">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="auth-buttons">
-                <a href="login.html" class="btn-login">Login</a>
-                <a href="login.html" class="btn-signin">Sign In</a>
-            </div>
+  <header class="site-header">
+    <div class="navbar">
+      <a class="brand" href="#home">
+        <img src="./logo.png" alt="Bhandar Sathi logo" class="brand-logo">
+        <span class="brand-name">Bhandar Sathi</span>
+      </a>
+
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li class="nav-cta"><a href="login.html" class="btn btn-primary">Sign In</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Escrow for local trade</p>
+        <h1>Secure every deal with Bhandar Sathi</h1>
+        <p class="lede">Keep neighborhood buyers and sellers safe with an escrow flow that releases funds only when both sides are satisfied.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#about">How it works</a>
+          <a class="btn btn-ghost" href="#contact">Talk to us</a>
         </div>
-    </header>
+      </div>
+      <div class="hero-visual">
+        <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?w=1200&q=80&auto=format&fit=crop" alt="People collaborating" />
+      </div>
+    </section>
 
-    <main id="home">
-        <section class="hero">
-            <div class="hero-content">
-                <p class="eyebrow">Escrow for local trade</p>
-                <h1>Secure every deal with Bhandar Sathi</h1>
-                <p class="lede">Keep neighborhood buyers and sellers safe with an escrow flow that releases funds only when both sides are satisfied.</p>
+    <section class="why-us" id="about">
+      <div class="section-header">
+        <h2>Why Bhandar Sathi?</h2>
+        <p>Here’s how we keep your neighborhood transactions secure and simple.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="icon">🛡️</div>
+          <h3>Escrow Protection</h3>
+          <p>Funds are locked safely until both buyer and seller confirm satisfaction.</p>
+        </article>
+        <article class="feature-card">
+          <div class="icon">⚡</div>
+          <h3>Fast Payouts</h3>
+          <p>Streamlined release once conditions are met so you get paid quickly.</p>
+        </article>
+        <article class="feature-card">
+          <div class="icon">👥</div>
+          <h3>Verified Network</h3>
+          <p>Work with verified local buyers and sellers to reduce risk.</p>
+        </article>
+        <article class="feature-card">
+          <div class="icon">📞</div>
+          <h3>24/7 Support</h3>
+          <p>We’re here whenever you need help with a transaction.</p>
+        </article>
+      </div>
+    </section>
 
-                
+    <section class="process" id="services">
+      <div class="section-header">
+        <h2>How We Work</h2>
+        <p>Four simple steps to secure every deal.</p>
+      </div>
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <h3>List Your Deal</h3>
+          <p>Share terms so both sides are clear.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <h3>Fund Escrow</h3>
+          <p>Buyer deposits funds into our secure account.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <h3>Complete Transaction</h3>
+          <p>Deliver goods or services and confirm.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <h3>Release Funds</h3>
+          <p>We pay out once both sides agree.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="section-header">
+        <h2>Get in Touch</h2>
+        <p>Have questions? We’d love to hear from you.</p>
+      </div>
+      <div class="contact-grid">
+        <form class="contact-form">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input id="subject" name="subject" type="text" placeholder="What is this about?" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" placeholder="Tell us more..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+
+        <div class="contact-info">
+          <div class="info-item">
+            <div class="icon">📍</div>
+            <div>
+              <h4>Address</h4>
+              <p>Local Marketplace<br>Your City, Country</p>
             </div>
-        </section>
-
-        <section class="why-us" id="about">
-            <div class="why-us-container">
-                <div class="section-header">
-                    <h2>Why Bhandar Sathi?</h2>
-                    <p>Here's how we keep your neighborhood transactions secure and simple</p>
-                </div>
-                
-                <div class="how-we-work">
-                    <div class="process-step">
-                        <div class="step-number">1</div>
-                        <h3>List Your Deal</h3>
-                        <p>Buyers and sellers post their transaction details on our platform with clear terms and conditions.</p>
-                    </div>
-                    
-                    <div class="process-step">
-                        <div class="step-number">2</div>
-                        <h3>Fund Escrow</h3>
-                        <p>The buyer deposits funds into our secure escrow account. The money is held safely until conditions are met.</p>
-                    </div>
-                    
-                    <div class="process-step">
-                        <div class="step-number">3</div>
-                        <h3>Complete Transaction</h3>
-                        <p>Both parties work together to complete the agreed terms. We verify that everything is in order.</p>
-                    </div>
-                    
-                    <div class="process-step">
-                        <div class="step-number">4</div>
-                        <h3>Release Funds</h3>
-                        <p>Once both sides confirm satisfaction, we release funds to the seller. Everyone walks away happy.</p>
-                    </div>
-                </div>
-
-                <div class="benefits">
-                    <h3>Our Guarantees</h3>
-                    <ul>
-                        <li>🔒 <strong>100% Secure</strong> – Your money is protected by our escrow system</li>
-                        <li>⚡ <strong>Fast Processing</strong> – Transactions complete in days, not weeks</li>
-                        <li>👥 <strong>Trusted Community</strong> – Connect with verified local sellers and buyers</li>
-                        <li>📞 <strong>24/7 Support</strong> – We're here when you need us</li>
-                    </ul>
-                </div>
+          </div>
+          <div class="info-item">
+            <div class="icon">📞</div>
+            <div>
+              <h4>Phone</h4>
+              <p><a href="tel:+91XXXXXXXXXX">+91 XXXX XXXX XX</a></p>
             </div>
-        </section>
-
-        <section class="contact" id="contact">
-            <div class="contact-container">
-                <div class="section-header">
-                    <h2>Get in Touch</h2>
-                    <p>Have questions? We'd love to hear from you. Reach out anytime.</p>
-                </div>
-
-                <div class="contact-content">
-                    <div class="contact-form-wrapper">
-                        <form class="contact-form">
-                            <div class="form-group">
-                                <label for="name">Full Name</label>
-                                <input type="text" id="name" name="name" placeholder="Your name" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="email">Email Address</label>
-                                <input type="email" id="email" name="email" placeholder="your@email.com" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <input type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="subject">Subject</label>
-                                <input type="text" id="subject" name="subject" placeholder="What is this about?" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="message">Message</label>
-                                <textarea id="message" name="message" placeholder="Tell us more..." rows="5" required></textarea>
-                            </div>
-
-                            <button type="submit" class="btn btn-submit">Send Message</button>
-                        </form>
-                    </div>
-
-                    <div class="contact-info">
-                        <div class="info-card">
-                            <div class="info-icon">📍</div>
-                            <h4>Address</h4>
-                            <p>Local Marketplace<br>Your City, Country</p>
-                        </div>
-
-                        <div class="info-card">
-                            <div class="info-icon">📞</div>
-                            <h4>Phone</h4>
-                            <p><a href="tel:+91XXXXXXXXXX">+91 XXXX XXXX XX</a></p>
-                        </div>
-
-                        <div class="info-card">
-                            <div class="info-icon">✉️</div>
-                            <h4>Email</h4>
-                            <p><a href="mailto:support@bhandarsathi.com">support@bhandarsathi.com</a></p>
-                        </div>
-
-                        <div class="info-card">
-                            <div class="info-icon">🕐</div>
-                            <h4>Hours</h4>
-                            <p>24/7 Support<br>Always here for you</p>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="info-item">
+            <div class="icon">✉️</div>
+            <div>
+              <h4>Email</h4>
+              <p><a href="mailto:support@bhandarsathi.com">support@bhandarsathi.com</a></p>
             </div>
-        </section>
-    </main>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+          </div>
+          <div class="info-item">
+            <div class="icon">🕐</div>
+            <div>
+              <h4>Hours</h4>
+              <p>24/7 Support</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-
-        </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
