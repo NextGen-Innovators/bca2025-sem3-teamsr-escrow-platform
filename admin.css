@@ -1801,8 +1801,6 @@ body {
     display: block;
   }
 
-  
-
   .sidebar-overlay.active {
     display: block;
   }
@@ -1919,4 +1917,11 @@ body {
     right: -1rem;
     left: auto;
   }
+}
+
+.navbar-logo {
+  height: clamp(40px, 5vw, 50px);
+  width: auto;
+  object-fit: contain;
+  filter: brightness(1) contrast(1.1);
 }
