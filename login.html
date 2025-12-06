@@ -8,17 +8,17 @@
 </head>
 <body>
   <div class="login_form">
-    <form action="#">
+    <form id="loginForm">
       <h3>Log in with</h3>
       <div class="login_option">
         <div class="option">
-          <a href="#">
+          <a href="#" class="social-login" data-provider="google">
             <img src="./google.jpg" alt="Google" />
             <span>Google</span>
           </a>
         </div>
         <div class="option">
-          <a href="#">
+          <a href="#" class="social-login" data-provider="apple">
             <img src="./apple.png" alt="Apple" class="apple-logo" />
             <span>Apple</span>
           </a>
@@ -38,9 +38,78 @@
         </div>
         <input type="password" id="password" placeholder="Enter your password" required />
       </div>
-      <button type="submit">Login</button>
+      <button type="submit" id="loginBtn">Login</button>
+      <p id="errorMsg" style="color: #ef4444; font-size: 0.9rem; text-align: center; margin-top: 0.75rem; display: none;"></p>
       <p class="sign_up">Don't have an account? <a href="#">Sign up</a></p>
     </form>
   </div>
+
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const errorMsg = document.getElementById('errorMsg');
+    const socialLogins = document.querySelectorAll('.social-login');
+
+    // Email/Password Login
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      // Simple validation
+      if (!email || !password) {
+        showError('Please fill in all fields');
+        return;
+      }
+
+      if (password.length < 6) {
+        showError('Password must be at least 6 characters');
+        return;
+      }
+
+      // Simulate login (in production, this would call your backend API)
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Logging in...';
+
+      setTimeout(() => {
+        // Store user session (you can use sessionStorage or localStorage)
+        sessionStorage.setItem('isLoggedIn', 'true');
+        sessionStorage.setItem('userEmail', email);
+        
+        // Redirect to admin page
+        window.location.href = 'admin.html';
+      }, 800);
+    });
+
+    // Social Login
+    socialLogins.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const provider = link.getAttribute('data-provider');
+        
+        // Simulate social login
+        loginBtn.disabled = true;
+        loginBtn.textContent = 'Connecting...';
+
+        setTimeout(() => {
+          // Store user session
+          sessionStorage.setItem('isLoggedIn', 'true');
+          sessionStorage.setItem('loginProvider', provider);
+          
+          // Redirect to admin page
+          window.location.href = 'admin.html';
+        }, 1000);
+      });
+    });
+
+    function showError(message) {
+      errorMsg.textContent = message;
+      errorMsg.style.display = 'block';
+      setTimeout(() => {
+        errorMsg.style.display = 'none';
+      }, 4000);
+    }
+  </script>
 </body>
 </html>

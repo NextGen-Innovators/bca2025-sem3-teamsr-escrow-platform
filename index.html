@@ -3,56 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bhandar Sathi</title>
+  <title>Bhandar Sathi - Secure Escrow for Local Trade</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Header / Navbar -->
   <header class="site-header">
-    <div class="navbar">
-      <a class="brand" href="#home">
-        <img src="./logo.png" alt="Bhandar Sathi logo" class="brand-logo">
-        <span class="brand-name">Bhandar Sathi</span>
+    <nav class="navbar">
+      <!-- Logo Section -->
+      <a href="#home" class="navbar-brand">
+        <img src="./logo.png" alt="Bhandar Sathi" class="navbar-logo">
+        <span class="brand-text">Bhandar Sathi</span>
       </a>
 
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
+      <!-- Mobile Hamburger Button -->
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
       </button>
 
-      <nav class="nav-menu">
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li class="nav-cta"><a href="login.html" class="btn btn-primary">Sign In</a></li>
+      <!-- Navigation Menu -->
+      <nav class="nav-menu" id="navMenu">
+        <ul class="nav-list">
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#services" class="nav-link">Services</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
+        <a href="login.html" class="btn btn-primary nav-cta">Sign In</a>
       </nav>
-    </div>
+    </nav>
   </header>
 
-  <main id="home">
-    <section class="hero">
-      <div class="hero-content">
-        <p class="eyebrow">Escrow for local trade</p>
-        <h1>Secure every deal with Bhandar Sathi</h1>
-        <p class="lede">Keep neighborhood buyers and sellers safe with an escrow flow that releases funds only when both sides are satisfied.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#about">How it works</a>
-          <a class="btn btn-ghost" href="#contact">Talk to us</a>
+  <!-- Hero Section -->
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-container">
+        <!-- Left: Hero Content -->
+        <div class="hero-content">
+          <p class="hero-eyebrow">Escrow for Local Trade</p>
+          <h1 class="hero-title">Secure Every Deal with Bhandar Sathi</h1>
+          <p class="hero-description">Keep neighborhood buyers and sellers safe with an escrow flow that releases funds only when both sides are satisfied.</p>
+          
+          <div class="hero-actions">
+            <a href="#about" class="btn btn-primary">How It Works</a>
+            <a href="#contact" class="btn btn-ghost">Talk to Us</a>
+          </div>
         </div>
-      </div>
-      <div class="hero-visual">
-        <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?w=1200&q=80&auto=format&fit=crop" alt="People collaborating" />
+
+        <!-- Right: Hero Image -->
+        <div class="hero-image">
+          <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?w=1200&q=80&auto=format&fit=crop" alt="People collaborating on a deal" class="hero-img">
+        </div>
       </div>
     </section>
 
+    <!-- Features / Why Us Section -->
     <section class="why-us" id="about">
       <div class="section-header">
         <h2>Why Bhandar Sathi?</h2>
-        <p>Here’s how we keep your neighborhood transactions secure and simple.</p>
+        <p>Here's how we keep your neighborhood transactions secure and simple.</p>
       </div>
       <div class="feature-grid">
         <article class="feature-card">
@@ -73,11 +87,12 @@
         <article class="feature-card">
           <div class="icon">📞</div>
           <h3>24/7 Support</h3>
-          <p>We’re here whenever you need help with a transaction.</p>
+          <p>We're here whenever you need help with a transaction.</p>
         </article>
       </div>
     </section>
 
+    <!-- How We Work Section -->
     <section class="process" id="services">
       <div class="section-header">
         <h2>How We Work</h2>
@@ -107,10 +122,11 @@
       </div>
     </section>
 
+    <!-- Contact Section -->
     <section class="contact" id="contact">
       <div class="section-header">
         <h2>Get in Touch</h2>
-        <p>Have questions? We’d love to hear from you.</p>
+        <p>Have questions? We'd love to hear from you.</p>
       </div>
       <div class="contact-grid">
         <form class="contact-form">
