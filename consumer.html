@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consumer Dashboard - Bhandar Sathi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
+  <link rel="stylesheet" href="consumer.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">BS</span>
+          <span class="brand-text">Bhandar Sathi</span>
+        </a>
+        <button class="icon-btn close-sidebar" id="closeSidebar" aria-label="Close sidebar">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+      <nav class="nav">
+        <a class="nav-item active" data-section="dashboard">
+          <span class="material-symbols-rounded">dashboard</span><span>Dashboard</span>
+        </a>
+        <a class="nav-item" data-section="profile">
+          <span class="material-symbols-rounded">storefront</span><span>Retailer Profile</span>
+        </a>
+        <a class="nav-item" data-section="orders">
+          <span class="material-symbols-rounded">inventory_2</span><span>My Orders</span>
+        </a>
+        <a class="nav-item" data-section="reports">
+          <span class="material-symbols-rounded">analytics</span><span>My Reports</span>
+        </a>
+        <a class="nav-item" data-section="settings">
+          <span class="material-symbols-rounded">settings</span><span>Settings</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="btn ghost w-100" id="logoutBtn">
+          <span class="material-symbols-rounded">logout</span>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <div class="content">
+      <header class="topbar">
+        <div class="left">
+          <button class="icon-btn" id="openSidebar" aria-label="Open sidebar">
+            <span class="material-symbols-rounded">menu</span>
+          </button>
+          <h1 id="pageTitle">Dashboard</h1>
+        </div>
+        <div class="right">
+          <div class="theme-toggle" id="themeToggle">
+            <button class="toggle-btn active" data-theme="light"><span class="material-symbols-rounded">light_mode</span></button>
+            <button class="toggle-btn" data-theme="dark"><span class="material-symbols-rounded">dark_mode</span></button>
+          </div>
+          <div class="user-chip" id="userChip">
+            <div class="avatar" id="userAvatar">U</div>
+            <div class="user-meta">
+              <p class="user-name" id="userName">User</p>
+              <p class="user-role">Retailer</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main id="sections">
+        <!-- Dashboard -->
+        <section class="section active" id="dashboard">
+          <div class="grid cards-6">
+            <div class="card stat">
+              <div class="stat-top">
+                <p>My Total Orders</p>
+                <span class="material-symbols-rounded">assignment</span>
+              </div>
+              <h2 id="statTotalOrders">0</h2>
+            </div>
+            <div class="card stat">
+              <div class="stat-top">
+                <p>My Pending Orders</p>
+                <span class="material-symbols-rounded">pending_actions</span>
+              </div>
+              <h2 id="statPendingOrders">0</h2>
+            </div>
+            <div class="card stat">
+              <div class="stat-top">
+                <p>My Delivered Orders</p>
+                <span class="material-symbols-rounded">local_shipping</span>
+              </div>
+              <h2 id="statDeliveredOrders">0</h2>
+            </div>
+            <div class="card stat">
+              <div class="stat-top">
+                <p>My Outstanding Balance</p>
+                <span class="material-symbols-rounded">account_balance_wallet</span>
+              </div>
+              <h2 id="statOutstanding">₹0</h2>
+            </div>
+            <div class="card stat">
+              <div class="stat-top">
+                <p>My Last Payment Date</p>
+                <span class="material-symbols-rounded">event</span>
+              </div>
+              <h2 id="statLastPayment">—</h2>
+            </div>
+            <div class="card stat">
+              <div class="stat-top">
+                <p>My Available Credit</p>
+                <span class="material-symbols-rounded">credit_score</span>
+              </div>
+              <h2 id="statAvailableCredit">₹0</h2>
+            </div>
+          </div>
+
+          <div class="grid charts">
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <p class="eyebrow">Only your data</p>
+                  <h3>My Monthly Orders</h3>
+                </div>
+              </div>
+              <canvas id="ordersChart" height="240"></canvas>
+            </div>
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <p class="eyebrow">Only your data</p>
+                  <h3>My Payment vs Balance</h3>
+                </div>
+              </div>
+              <canvas id="paymentsChart" height="240"></canvas>
+            </div>
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <p class="eyebrow">Only your data</p>
+                  <h3>My Purchase Categories</h3>
+                </div>
+              </div>
+              <canvas id="categoriesChart" height="240"></canvas>
+            </div>
+          </div>
+
+          <div class="grid quick-panels">
+            <div class="card">
+              <div class="card-head"><h3>My Recent Orders (Last 5)</h3></div>
+              <ul class="list" id="recentOrders"></ul>
+            </div>
+            <div class="card">
+              <div class="card-head"><h3>My Pending Payments</h3></div>
+              <ul class="list" id="pendingPayments"></ul>
+            </div>
+            <div class="card">
+              <div class="card-head"><h3>My Last 3 Payments</h3></div>
+              <ul class="list" id="lastPayments"></ul>
+            </div>
+            <div class="card">
+              <div class="card-head"><h3>New Offers / Discounts</h3></div>
+              <ul class="list" id="offers"></ul>
+            </div>
+            <div class="card">
+              <div class="card-head"><h3>Payment Due Date Reminder</h3></div>
+              <div id="dueReminder" class="pill"></div>
+            </div>
+          </div>
+
+          <div class="actions-row">
+            <button class="btn primary" data-action="order">Place New Order</button>
+            <button class="btn outline" data-action="pay">Make Payment</button>
+            <button class="btn outline" data-action="invoice">Download Invoice</button>
+            <button class="btn ghost" data-action="support">Contact Support</button>
+          </div>
+        </section>
+
+        <!-- Retailer Profile -->
+        <section class="section" id="profile">
+          <div class="card">
+            <div class="card-head"><h3>My Profile Info</h3></div>
+            <div class="profile-grid" id="profileInfo"></div>
+          </div>
+
+          <div class="grid cards-4">
+            <div class="card stat mini"><p>My Credit Limit</p><h3 id="creditLimit">₹0</h3></div>
+            <div class="card stat mini"><p>My Used Credit</p><h3 id="usedCredit">₹0</h3></div>
+            <div class="card stat mini"><p>My Available Credit</p><h3 id="availCredit">₹0</h3></div>
+            <div class="card stat mini"><p>My Outstanding Balance</p><h3 id="outBalance">₹0</h3></div>
+            <div class="card stat mini"><p>Last Payment Date</p><h3 id="lastPayDate">—</h3></div>
+            <div class="card stat mini"><p>Next Due Date</p><h3 id="nextDueDate">—</h3></div>
+          </div>
+
+          <div class="actions-row wrap">
+            <button class="btn primary" data-action="ledger">View My Ledger</button>
+            <button class="btn outline" data-action="pay">Make a Payment</button>
+            <button class="btn outline" data-action="statement">Download My Statement</button>
+            <button class="btn ghost" data-action="contact">Update Contact Details</button>
+            <button class="btn ghost" data-action="ticket">Raise a Support Ticket</button>
+          </div>
+
+          <div class="tabs" id="profileTabs">
+            <button class="tab active" data-tab="ordersTab">My Order History</button>
+            <button class="tab" data-tab="paymentsTab">My Payment History</button>
+            <button class="tab" data-tab="invoicesTab">My Pending Invoices</button>
+          </div>
+          <div class="tab-panels">
+            <div class="card tab-panel active" id="ordersTab">
+              <table class="table" id="profileOrdersTable"></table>
+            </div>
+            <div class="card tab-panel" id="paymentsTab">
+              <table class="table" id="profilePaymentsTable"></table>
+            </div>
+            <div class="card tab-panel" id="invoicesTab">
+              <table class="table" id="profileInvoicesTable"></table>
+            </div>
+          </div>
+        </section>
+
+        <!-- My Orders -->
+        <section class="section" id="orders">
+          <div class="grid cards-4">
+            <div class="card stat mini"><p>My Orders Today</p><h3 id="ordersToday">0</h3></div>
+            <div class="card stat mini"><p>My Pending Orders</p><h3 id="ordersPending">0</h3></div>
+            <div class="card stat mini"><p>My Delivered Orders</p><h3 id="ordersDelivered">0</h3></div>
+            <div class="card stat mini"><p>My Cancelled Orders</p><h3 id="ordersCancelled">0</h3></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head between">
+              <h3>My Orders</h3>
+              <div class="actions-row">
+                <button class="btn primary" data-action="order">Place New Order</button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table" id="ordersTable"></table>
+            </div>
+          </div>
+        </section>
+
+        <!-- My Reports -->
+        <section class="section" id="reports">
+          <div class="card">
+            <div class="card-head"><h3>Allowed Reports for Consumer</h3></div>
+            <ul class="chips">
+              <li>My Order Report</li>
+              <li>My Payment Report</li>
+              <li>My Outstanding Report</li>
+              <li>My Invoice History</li>
+            </ul>
+
+            <div class="filters">
+              <label>Date Range <input type="date" id="startDate"> to <input type="date" id="endDate"></label>
+              <label>Payment Status
+                <select id="filterPaymentStatus">
+                  <option value="">All</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Unpaid">Unpaid</option>
+                  <option value="Partial">Partial</option>
+                </select>
+              </label>
+              <label>Order Status
+                <select id="filterOrderStatus">
+                  <option value="">All</option>
+                  <option value="Placed">Placed</option>
+                  <option value="Confirmed">Confirmed</option>
+                  <option value="Dispatched">Dispatched</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Cancelled">Cancelled</option>
+                  <option value="Returned">Returned</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="actions-row">
+              <button class="btn primary" data-action="export-pdf">Download as PDF</button>
+              <button class="btn outline" data-action="export-xls">Download as Excel</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Settings -->
+        <section class="section" id="settings">
+          <div class="grid settings-grid">
+            <div class="card">
+              <div class="card-head"><h3>Personal Settings</h3></div>
+              <form class="form">
+                <label>My Profile Info<input type="text" placeholder="Shop Name"></label>
+                <label>Change Password<input type="password" placeholder="New Password"></label>
+                <label>Update Phone / Email<input type="text" placeholder="Phone or Email"></label>
+                <label>Language Selection
+                  <select>
+                    <option>English</option>
+                    <option>हिन्दी</option>
+                  </select>
+                </label>
+                <label>Notification Preferences
+                  <select>
+                    <option>All</option>
+                    <option>Only Important</option>
+                    <option>None</option>
+                  </select>
+                </label>
+              </form>
+            </div>
+            <div class="card">
+              <div class="card-head"><h3>Security</h3></div>
+              <ul class="list">
+                <li>Login Activity <span class="pill">View</span></li>
+                <li>Logout from All Devices <button class="btn ghost" data-action="logout-all">Logout</button></li>
+                <li>Two-step Verification (Optional) <button class="btn outline" data-action="2fa">Enable</button></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-head"><h3>Support</h3></div>
+              <ul class="list">
+                <li>Help Center</li>
+                <li>Raise Ticket</li>
+                <li>Chat with Support</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="consumer.js"></script>
+</body>
+</html>
