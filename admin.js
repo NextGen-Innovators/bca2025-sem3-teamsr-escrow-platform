@@ -1,4 +1,6 @@
-// Check if user is logged in
+// ===================================
+// AUTHENTICATION CHECK
+// ===================================
 const isLoggedIn = sessionStorage.getItem('isLoggedIn');
 if (!isLoggedIn) {
   window.location.href = 'login.html';
@@ -8,26 +10,97 @@ const userEmail = sessionStorage.getItem('userEmail');
 if (userEmail) {
   const profileName = document.querySelector('.profile-name');
   if (profileName) {
-    profileName.textContent = userEmail.split('@')[0]; // Show username from email
+    profileName.textContent = userEmail.split('@')[0];
   }
 }
 
-// DOM Elements
-const dashboardSidebar = document.getElementById("dashboardSidebar");
-const userMenu = document.getElementById("userMenu");
-const userMenuTrigger = document.getElementById("user-menu-trigger");
-const userMenuDropdown = document.querySelector(".user-menu-dropdown");
-const themeToggle = document.getElementById("theme-toggle");
-const dashboardViews = document.querySelectorAll(".dashboard-view");
-const dashboardNavItems = document.querySelectorAll(".dashboard-nav-item");
-const dashboardTitle = document.getElementById("dashboardTitle");
-const dashboardSidebarOverlay = document.getElementById("dashboardSidebarOverlay");
-const searchContainer = document.getElementById("searchContainer");
-const searchInput = document.getElementById("searchInput");
-const searchClose = document.getElementById("searchClose");
-const mobileSearchBtn = document.getElementById("mobileSearchBtn");
+// ===================================
+// IN-MEMORY DATA STORE
+// ===================================
+let users = [
+  {
+    id: 1,
+    name: 'Rajesh Kumar',
+    email: 'rajesh@example.com',
+    role: 'Admin',
+    joinDate: 'Nov 15, 2024',
+    status: 'Active'
+  },
+  {
+    id: 2,
+    name: 'Priya Sharma',
+    email: 'priya@example.com',
+    role: 'Manager',
+    joinDate: 'Oct 22, 2024',
+    status: 'Active'
+  },
+  {
+    id: 3,
+    name: 'Amit Patel',
+    email: 'amit@example.com',
+    role: 'User',
+    joinDate: 'Sep 30, 2024',
+    status: 'Inactive'
+  },
+  {
+    id: 4,
+    name: 'Neha Singh',
+    email: 'neha@example.com',
+    role: 'User',
+    joinDate: 'Dec 1, 2024',
+    status: 'Active'
+  }
+];
 
-// Elements
+let products = [
+  {
+    id: 1,
+    name: 'Premium Widget',
+    category: 'Electronics',
+    price: 49.99,
+    stock: 156,
+    status: 'In Stock'
+  },
+  {
+    id: 2,
+    name: 'Smart Device',
+    category: 'Technology',
+    price: 299.99,
+    stock: 45,
+    status: 'In Stock'
+  },
+  {
+    id: 3,
+    name: 'Pro Kit',
+    category: 'Tools',
+    price: 79.99,
+    stock: 0,
+    status: 'Out of Stock'
+  },
+  {
+    id: 4,
+    name: 'Ultra Monitor',
+    category: 'Electronics',
+    price: 399.99,
+    stock: 12,
+    status: 'Low Stock'
+  },
+  {
+    id: 5,
+    name: 'Ergonomic Chair',
+    category: 'Furniture',
+    price: 249.99,
+    stock: 88,
+    status: 'In Stock'
+  }
+];
+
+let nextUserId = 5;
+let nextProductId = 6;
+
+// ===================================
+// DOM ELEMENTS
+// ===================================
 const sidebar = document.getElementById('sidebar');
 const sidebarOverlay = document.getElementById('sidebarOverlay');
 const menuToggle = document.getElementById('menuToggle');
@@ -40,23 +113,40 @@ const sections = document.querySelectorAll('.section');
 const logoutBtns = document.querySelectorAll('#logoutBtn, #logoutDropdown');
 const themeToggleButtons = document.querySelectorAll('.theme-option');
 
-// State
-let sidebarCollapsed = false;
-let currentView = "overview";
-
-// Theme
-const currentTheme = localStorage.getItem('theme') || 'light';
-document.documentElement.setAttribute('data-theme', currentTheme);
-updateThemeUI();
-
-themeToggleButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const theme = btn.getAttribute('data-theme');
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-    updateThemeUI();
-  });
+// ===================================
+// INITIALIZATION
+// ===================================
+document.addEventListener('DOMContentLoaded', function () {
+  initTheme();
+  initSidebar();
+  initNavigation();
+  initUserManagement();
+  initProductManagement();
+  initModals();
+  
+  // Initial render
+  renderUsers();
+  renderProducts();
+  updateStats();
 });
+
+// ===================================
+// THEME FUNCTIONALITY
+// ===================================
+function initTheme() {
+  const currentTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  updateThemeUI();
+
+  themeToggleButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const theme = btn.getAttribute('data-theme');
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      updateThemeUI();
+    });
+  });
+}
 
 function updateThemeUI() {
   const theme = document.documentElement.getAttribute('data-theme');
@@ -66,74 +156,55 @@ function updateThemeUI() {
 }
 
 // ===================================
-// INITIALIZATION
-// ===================================
-
-document.addEventListener("DOMContentLoaded", function () {
-  initTheme();
-  initThemeToggle();
-  initSidebar();
-  initUserMenu();
-  initNavigation();
-  initSearch();
-  initCharts();
-});
-
-// ===================================
 // SIDEBAR FUNCTIONALITY
 // ===================================
-
 function initSidebar() {
-  // Load saved sidebar state
-  sidebarCollapsed = localStorage.getItem("dashboard-sidebar-collapsed") === "true";
-  dashboardSidebar.classList.toggle("collapsed", sidebarCollapsed);
-
-  // Sidebar toggle functionality
-  document.querySelectorAll(".dashboard-sidebar-toggle").forEach((toggle) => {
-    toggle.addEventListener("click", toggleSidebar);
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.add('open');
+    sidebarOverlay.classList.add('active');
   });
 
-  // Sidebar overlay functionality
-  dashboardSidebarOverlay?.addEventListener("click", closeSidebar);
+  sidebarClose.addEventListener('click', closeSidebar);
+  sidebarOverlay.addEventListener('click', closeSidebar);
+
+  profileBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    profileMenu.classList.toggle('open');
+  });
+
+  document.addEventListener('click', () => {
+    profileMenu.classList.remove('open');
+  });
+
+  profileMenu.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
+  // Logout functionality
+  logoutBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (confirm('Are you sure you want to logout?')) {
+        sessionStorage.clear();
+        window.location.href = 'index.html';
+      }
+    });
+  });
+
+  // Close sidebar on escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeSidebar();
+    }
+  });
+
+  // Close sidebar on window resize
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 992) {
+      closeSidebar();
+    }
+  });
 }
-
-function toggleSidebar() {
-  sidebarCollapsed = !sidebarCollapsed;
-  const isMobile = window.innerWidth <= 1024;
-
-  if (isMobile) {
-    // Mobile behavior - toggle sidebar and overlay together
-    const isOpen = dashboardSidebar.classList.contains("collapsed");
-    dashboardSidebar.classList.toggle("collapsed", !isOpen);
-    dashboardSidebarOverlay?.classList.toggle("active", !isOpen);
-  } else {
-    // Desktop behavior
-    dashboardSidebar.classList.toggle("collapsed", sidebarCollapsed);
-  }
-
-  localStorage.setItem("dashboard-sidebar-collapsed", sidebarCollapsed.toString());
-}
-
-function closeSidebar() {
-  if (window.innerWidth <= 1024) {
-    dashboardSidebar.classList.remove("collapsed");
-    dashboardSidebarOverlay?.classList.remove("active");
-  }
-}
-
-// Toggle Sidebar
-menuToggle.addEventListener('click', () => {
-  sidebar.classList.add('open');
-  sidebarOverlay.classList.add('active');
-});
-
-sidebarClose.addEventListener('click', () => {
-  closeSidebar();
-});
-
-sidebarOverlay.addEventListener('click', () => {
-  closeSidebar();
-});
 
 function closeSidebar() {
   sidebar.classList.remove('open');
@@ -141,244 +212,586 @@ function closeSidebar() {
 }
 
 // ===================================
-// USER MENU FUNCTIONALITY
-// ===================================
-
-function initUserMenu() {
-  if (!userMenuTrigger || !userMenu) return;
-
-  userMenuTrigger.addEventListener("click", (e) => {
-    e.stopPropagation();
-    userMenu.classList.toggle("active");
-  });
-
-  // Close menu when clicking outside or pressing escape
-  document.addEventListener("click", (e) => {
-    if (!userMenu.contains(e.target)) {
-      userMenu.classList.remove("active");
-    }
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && userMenu.classList.contains("active")) {
-      userMenu.classList.remove("active");
-    }
-  });
-}
-
-// Toggle Profile Menu
-profileBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  profileMenu.classList.toggle('open');
-});
-
-document.addEventListener('click', () => {
-  profileMenu.classList.remove('open');
-});
-
-profileMenu.addEventListener('click', (e) => {
-  e.stopPropagation();
-});
-
-// ===================================
 // NAVIGATION FUNCTIONALITY
 // ===================================
-
 function initNavigation() {
-  dashboardNavItems.forEach((item) => {
-    item.addEventListener("click", (e) => {
+  navItems.forEach(item => {
+    item.addEventListener('click', (e) => {
       e.preventDefault();
-      const viewId = item.getAttribute("data-view");
-      if (viewId) switchView(viewId);
+      const sectionId = item.getAttribute('data-section');
+      switchSection(sectionId);
+      closeSidebar();
     });
   });
 }
 
-function switchView(viewId) {
+function switchSection(sectionId) {
   // Update active nav item
-  dashboardNavItems.forEach((item) => {
-    item.classList.toggle("active", item.getAttribute("data-view") === viewId);
+  navItems.forEach(item => {
+    item.classList.toggle('active', item.getAttribute('data-section') === sectionId);
   });
 
-  // Hide all views and show selected one
-  dashboardViews.forEach((view) => view.classList.remove("active"));
+  // Show selected section
+  sections.forEach(section => {
+    section.classList.toggle('active', section.getAttribute('data-section') === sectionId);
+  });
 
-  const targetView = document.getElementById(viewId);
-  if (targetView) {
-    targetView.classList.add("active");
-    currentView = viewId;
-    updatePageTitle(viewId);
-  }
-
-  // Close sidebar on mobile after navigation
-  if (window.innerWidth <= 1024) closeSidebar();
+  // Update page title
+  const titles = {
+    overview: 'Dashboard',
+    users: 'User Management',
+    products: 'Product Management',
+    settings: 'Settings',
+    reports: 'Reports & Analytics'
+  };
+  pageTitle.textContent = titles[sectionId] || 'Dashboard';
 }
 
-function updatePageTitle(viewId) {
-  const titles = {
-    overview: "Overview",
-    projects: "Projects",
-    tasks: "Tasks",
-    reports: "Reports",
-    settings: "Settings",
+// ===================================
+// USER MANAGEMENT
+// ===================================
+function initUserManagement() {
+  const addUserBtn = document.getElementById('addUserBtn');
+  if (addUserBtn) {
+    addUserBtn.addEventListener('click', () => openUserModal());
+  }
+}
+
+function renderUsers() {
+  const tbody = document.getElementById('usersTableBody');
+  if (!tbody) return;
+
+  tbody.innerHTML = users.map(user => `
+    <tr>
+      <td>${escapeHtml(user.name)}</td>
+      <td>${escapeHtml(user.email)}</td>
+      <td>${escapeHtml(user.role)}</td>
+      <td>${escapeHtml(user.joinDate)}</td>
+      <td><span class="badge ${user.status.toLowerCase()}">${escapeHtml(user.status)}</span></td>
+      <td>
+        <div class="action-buttons">
+          <button class="action-btn view" onclick="viewUser(${user.id})" title="View">
+            <span class="material-symbols-rounded">visibility</span>
+          </button>
+          <button class="action-btn edit" onclick="editUser(${user.id})" title="Edit">
+            <span class="material-symbols-rounded">edit</span>
+          </button>
+          <button class="action-btn delete" onclick="deleteUser(${user.id})" title="Delete">
+            <span class="material-symbols-rounded">delete</span>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function openUserModal(userId = null) {
+  const modal = document.getElementById('userModal');
+  const title = document.getElementById('userModalTitle');
+  const form = document.getElementById('userForm');
+  
+  form.reset();
+  clearErrors();
+  
+  if (userId) {
+    const user = users.find(u => u.id === userId);
+    if (user) {
+      title.textContent = 'Edit User';
+      document.getElementById('userId').value = user.id;
+      document.getElementById('userName').value = user.name;
+      document.getElementById('userEmail').value = user.email;
+      document.getElementById('userRole').value = user.role;
+      document.getElementById('userStatus').value = user.status;
+    }
+  } else {
+    title.textContent = 'Add User';
+    document.getElementById('userId').value = '';
+  }
+  
+  modal.classList.add('active');
+}
+
+function saveUser() {
+  const userId = document.getElementById('userId').value;
+  const name = document.getElementById('userName').value.trim();
+  const email = document.getElementById('userEmail').value.trim();
+  const role = document.getElementById('userRole').value;
+  const status = document.getElementById('userStatus').value;
+
+  // Validation
+  let isValid = true;
+  clearErrors();
+
+  if (!name) {
+    showError('userNameError', 'Name is required');
+    isValid = false;
+  }
+
+  if (!email) {
+    showError('userEmailError', 'Email is required');
+    isValid = false;
+  } else if (!isValidEmail(email)) {
+    showError('userEmailError', 'Invalid email format');
+    isValid = false;
+  }
+
+  if (!role) {
+    showError('userRoleError', 'Role is required');
+    isValid = false;
+  }
+
+  if (!isValid) return;
+
+  const userData = {
+    name,
+    email,
+    role,
+    status,
+    joinDate: userId ? users.find(u => u.id == userId).joinDate : formatDate(new Date())
   };
 
-  if (dashboardTitle) {
-    dashboardTitle.textContent = titles[viewId] || "Dashboard";
+  if (userId) {
+    // Update existing user
+    const index = users.findIndex(u => u.id == userId);
+    users[index] = { ...users[index], ...userData };
+    showNotification('User updated successfully', 'success');
+  } else {
+    // Add new user
+    users.push({
+      id: nextUserId++,
+      ...userData
+    });
+    showNotification('User added successfully', 'success');
+  }
+
+  closeUserModal();
+  renderUsers();
+  updateStats();
+}
+
+function viewUser(id) {
+  const user = users.find(u => u.id === id);
+  if (!user) return;
+
+  const content = `
+    <div class="detail-row">
+      <span class="detail-label">Name:</span>
+      <span class="detail-value">${escapeHtml(user.name)}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Email:</span>
+      <span class="detail-value">${escapeHtml(user.email)}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Role:</span>
+      <span class="detail-value">${escapeHtml(user.role)}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Join Date:</span>
+      <span class="detail-value">${escapeHtml(user.joinDate)}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Status:</span>
+      <span class="detail-value"><span class="badge ${user.status.toLowerCase()}">${escapeHtml(user.status)}</span></span>
+    </div>
+  `;
+
+  openViewModal('User Details', content);
+}
+
+function editUser(id) {
+  openUserModal(id);
+}
+
+function deleteUser(id) {
+  const user = users.find(u => u.id === id);
+  if (!user) return;
+
+  openConfirmModal(
+    'Delete User',
+    `Are you sure you want to delete ${user.name}? This action cannot be undone.`,
+    () => {
+      users = users.filter(u => u.id !== id);
+      renderUsers();
+      updateStats();
+      showNotification('User deleted successfully', 'success');
+    }
+  );
+}
+
+function closeUserModal() {
+  document.getElementById('userModal').classList.remove('active');
+}
+
+// ===================================
+// PRODUCT MANAGEMENT
+// ===================================
+function initProductManagement() {
+  const addProductBtn = document.getElementById('addProductBtn');
+  if (addProductBtn) {
+    addProductBtn.addEventListener('click', () => openProductModal());
   }
 }
 
-// ===================================
-// THEME FUNCTIONALITY
-// ===================================
+function renderProducts() {
+  const tbody = document.getElementById('productsTableBody');
+  if (!tbody) return;
 
-function initTheme() {
-  // Load saved theme
-  const savedTheme = localStorage.getItem("dashboard-theme") || "light";
-  document.documentElement.setAttribute("data-theme", savedTheme);
-
-  // Update theme toggle UI
-  updateThemeToggleUI(savedTheme);
+  tbody.innerHTML = products.map(product => `
+    <tr>
+      <td>${escapeHtml(product.name)}</td>
+      <td>${escapeHtml(product.category)}</td>
+      <td>$${product.price.toFixed(2)}</td>
+      <td>${product.stock}</td>
+      <td><span class="badge ${getProductStatusClass(product.status)}">${escapeHtml(product.status)}</span></td>
+      <td>
+        <div class="action-buttons">
+          <button class="action-btn view" onclick="viewProduct(${product.id})" title="View">
+            <span class="material-symbols-rounded">visibility</span>
+          </button>
+          <button class="action-btn edit" onclick="editProduct(${product.id})" title="Edit">
+            <span class="material-symbols-rounded">edit</span>
+          </button>
+          <button class="action-btn delete" onclick="deleteProduct(${product.id})" title="Delete">
+            <span class="material-symbols-rounded">delete</span>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
 }
 
-function initThemeToggle() {
-  if (!themeToggle) return;
+function getProductStatusClass(status) {
+  const statusMap = {
+    'In Stock': 'success',
+    'Out of Stock': 'inactive',
+    'Low Stock': 'warning'
+  };
+  return statusMap[status] || '';
+}
 
-  themeToggle.querySelectorAll(".theme-option").forEach((option) => {
-    option.addEventListener("click", (e) => {
-      e.stopPropagation();
-      setTheme(option.getAttribute("data-theme"));
+function openProductModal(productId = null) {
+  const modal = document.getElementById('productModal');
+  const title = document.getElementById('productModalTitle');
+  const form = document.getElementById('productForm');
+  
+  form.reset();
+  clearErrors();
+  
+  if (productId) {
+    const product = products.find(p => p.id === productId);
+    if (product) {
+      title.textContent = 'Edit Product';
+      document.getElementById('productId').value = product.id;
+      document.getElementById('productName').value = product.name;
+      document.getElementById('productCategory').value = product.category;
+      document.getElementById('productPrice').value = product.price;
+      document.getElementById('productStock').value = product.stock;
+      document.getElementById('productStatus').value = product.status;
+    }
+  } else {
+    title.textContent = 'Add Product';
+    document.getElementById('productId').value = '';
+  }
+  
+  modal.classList.add('active');
+}
+
+function saveProduct() {
+  const productId = document.getElementById('productId').value;
+  const name = document.getElementById('productName').value.trim();
+  const category = document.getElementById('productCategory').value;
+  const price = parseFloat(document.getElementById('productPrice').value);
+  const stock = parseInt(document.getElementById('productStock').value);
+  const status = document.getElementById('productStatus').value;
+
+  // Validation
+  let isValid = true;
+  clearErrors();
+
+  if (!name) {
+    showError('productNameError', 'Product name is required');
+    isValid = false;
+  }
+
+  if (!category) {
+    showError('productCategoryError', 'Category is required');
+    isValid = false;
+  }
+
+  if (isNaN(price) || price < 0) {
+    showError('productPriceError', 'Valid price is required');
+    isValid = false;
+  }
+
+  if (isNaN(stock) || stock < 0) {
+    showError('productStockError', 'Valid stock quantity is required');
+    isValid = false;
+  }
+
+  if (!isValid) return;
+
+  const productData = {
+    name,
+    category,
+    price,
+    stock,
+    status
+  };
+
+  if (productId) {
+    // Update existing product
+    const index = products.findIndex(p => p.id == productId);
+    products[index] = { ...products[index], ...productData };
+    showNotification('Product updated successfully', 'success');
+  } else {
+    // Add new product
+    products.push({
+      id: nextProductId++,
+      ...productData
     });
-  });
+    showNotification('Product added successfully', 'success');
+  }
+
+  closeProductModal();
+  renderProducts();
+  updateStats();
 }
 
-function setTheme(theme) {
-  document.documentElement.setAttribute("data-theme", theme);
-  localStorage.setItem("dashboard-theme", theme);
-  updateThemeToggleUI(theme);
+function viewProduct(id) {
+  const product = products.find(p => p.id === id);
+  if (!product) return;
+
+  const content = `
+    <div class="detail-row">
+      <span class="detail-label">Product Name:</span>
+      <span class="detail-value">${escapeHtml(product.name)}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Category:</span>
+      <span class="detail-value">${escapeHtml(product.category)}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Price:</span>
+      <span class="detail-value">$${product.price.toFixed(2)}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Stock:</span>
+      <span class="detail-value">${product.stock} units</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Status:</span>
+      <span class="detail-value"><span class="badge ${getProductStatusClass(product.status)}">${escapeHtml(product.status)}</span></span>
+    </div>
+  `;
+
+  openViewModal('Product Details', content);
 }
 
-function updateThemeToggleUI(theme) {
-  if (!themeToggle) return;
+function editProduct(id) {
+  openProductModal(id);
+}
 
-  themeToggle.querySelectorAll(".theme-option").forEach((option) => {
-    option.classList.toggle("active", option.getAttribute("data-theme") === theme);
-  });
+function deleteProduct(id) {
+  const product = products.find(p => p.id === id);
+  if (!product) return;
+
+  openConfirmModal(
+    'Delete Product',
+    `Are you sure you want to delete ${product.name}? This action cannot be undone.`,
+    () => {
+      products = products.filter(p => p.id !== id);
+      renderProducts();
+      updateStats();
+      showNotification('Product deleted successfully', 'success');
+    }
+  );
+}
+
+function closeProductModal() {
+  document.getElementById('productModal').classList.remove('active');
 }
 
 // ===================================
-// SEARCH FUNCTIONALITY
+// MODAL MANAGEMENT
 // ===================================
+function initModals() {
+  // User Modal
+  document.getElementById('closeUserModal')?.addEventListener('click', closeUserModal);
+  document.getElementById('cancelUserModal')?.addEventListener('click', closeUserModal);
+  document.getElementById('userModalOverlay')?.addEventListener('click', closeUserModal);
+  document.getElementById('saveUserBtn')?.addEventListener('click', saveUser);
 
-function initSearch() {
-  mobileSearchBtn?.addEventListener("click", () => {
-    searchContainer.classList.add("mobile-active");
-    searchInput.focus();
-  });
+  // Product Modal
+  document.getElementById('closeProductModal')?.addEventListener('click', closeProductModal);
+  document.getElementById('cancelProductModal')?.addEventListener('click', closeProductModal);
+  document.getElementById('productModalOverlay')?.addEventListener('click', closeProductModal);
+  document.getElementById('saveProductBtn')?.addEventListener('click', saveProduct);
 
-  searchClose?.addEventListener("click", () => {
-    searchContainer.classList.remove("mobile-active");
-    searchInput.value = "";
-  });
-}
+  // View Modal
+  document.getElementById('closeViewModal')?.addEventListener('click', closeViewModal);
+  document.getElementById('closeViewModalBtn')?.addEventListener('click', closeViewModal);
+  document.getElementById('viewModalOverlay')?.addEventListener('click', closeViewModal);
 
-// ===================================
-// CHART INITIALIZATION
-// ===================================
+  // Confirm Modal
+  document.getElementById('closeConfirmModal')?.addEventListener('click', closeConfirmModal);
+  document.getElementById('cancelConfirmModal')?.addEventListener('click', closeConfirmModal);
+  document.getElementById('confirmModalOverlay')?.addEventListener('click', closeConfirmModal);
 
-function initCharts() {
-  initProgressChart();
-  initCategoryChart();
-}
-
-function initProgressChart() {
-  const ctx = document.getElementById("progressChart");
-  if (!ctx) return;
-
-  new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-      datasets: [
-        {
-          label: "Project Progress",
-          data: [20, 35, 45, 60, 70, 85],
-          borderColor: "#8b5cf6",
-          backgroundColor: "rgba(139, 92, 246, 0.1)",
-          borderWidth: 2,
-          fill: true,
-          tension: 0.4,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 100,
-          ticks: { callback: (value) => value + "%" },
-        },
-      },
-    },
-  });
-}
-
-function initCategoryChart() {
-  const ctx = document.getElementById("categoryChart");
-  if (!ctx) return;
-
-  new Chart(ctx, {
-    type: "doughnut",
-    data: {
-      labels: ["Frontend", "Backend", "Mobile", "DevOps"],
-      datasets: [
-        {
-          data: [35, 25, 20, 20],
-          backgroundColor: ["#8b5cf6", "#10b981", "#f59e0b", "#ef4444"],
-          borderWidth: 0,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: "bottom",
-          labels: {
-            padding: 20,
-            usePointStyle: true,
-          },
-        },
-      },
-    },
-  });
-}
-
-// Logout
-logoutBtns.forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (confirm('Are you sure you want to logout?')) {
-      // Redirect to login or home
-      window.location.href = 'index.html';
+  // Close modals on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeAllModals();
     }
   });
-});
+}
 
-// Close sidebar on escape
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    closeSidebar();
-  }
-});
+function openViewModal(title, content) {
+  document.getElementById('viewModalTitle').textContent = title;
+  document.getElementById('viewModalContent').innerHTML = content;
+  document.getElementById('viewModal').classList.add('active');
+}
 
-// Close sidebar on window resize (tablet to desktop)
-window.addEventListener('resize', () => {
-  if (window.innerWidth > 992) {
-    closeSidebar();
+function closeViewModal() {
+  document.getElementById('viewModal').classList.remove('active');
+}
+
+let confirmCallback = null;
+
+function openConfirmModal(title, message, callback) {
+  document.getElementById('confirmModalTitle').textContent = title;
+  document.getElementById('confirmModalMessage').textContent = message;
+  confirmCallback = callback;
+  document.getElementById('confirmModal').classList.add('active');
+
+  // Set up confirm button listener (remove old listeners first)
+  const confirmBtn = document.getElementById('confirmActionBtn');
+  const newConfirmBtn = confirmBtn.cloneNode(true);
+  confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+  
+  newConfirmBtn.addEventListener('click', () => {
+    if (confirmCallback) {
+      confirmCallback();
+      confirmCallback = null;
+    }
+    closeConfirmModal();
+  });
+}
+
+function closeConfirmModal() {
+  document.getElementById('confirmModal').classList.remove('active');
+  confirmCallback = null;
+}
+
+function closeAllModals() {
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.classList.remove('active');
+  });
+}
+
+// ===================================
+// UTILITY FUNCTIONS
+// ===================================
+function updateStats() {
+  // Update stats in overview section
+  const activeUsers = users.filter(u => u.status === 'Active').length;
+  const totalProducts = products.length;
+  const inStockProducts = products.filter(p => p.status === 'In Stock').length;
+  
+  // You can update the stat cards here if needed
+  // This is a placeholder for dynamic stat updates
+}
+
+function showError(elementId, message) {
+  const errorElement = document.getElementById(elementId);
+  const inputId = elementId.replace('Error', '');
+  const inputElement = document.getElementById(inputId);
+  
+  if (errorElement) {
+    errorElement.textContent = message;
+    errorElement.classList.add('show');
   }
-});
+  
+  if (inputElement) {
+    inputElement.classList.add('error');
+  }
+}
+
+function clearErrors() {
+  document.querySelectorAll('.error-message').forEach(el => {
+    el.classList.remove('show');
+    el.textContent = '';
+  });
+  
+  document.querySelectorAll('.form-input').forEach(el => {
+    el.classList.remove('error');
+  });
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function formatDate(date) {
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function showNotification(message, type = 'info') {
+  // Simple notification - you can enhance this with a toast library
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  notification.textContent = message;
+  notification.style.cssText = `
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: ${type === 'success' ? 'var(--success)' : 'var(--info)'};
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    z-index: 10001;
+    animation: slideInRight 0.3s ease;
+  `;
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.animation = 'slideOutRight 0.3s ease';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+// Add animation styles
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideInRight {
+    from {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideOutRight {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+  }
+`;
+document.head.appendChild(style);
